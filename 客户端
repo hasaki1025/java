@@ -1,0 +1,75 @@
+package com.java.netticket.client;
+
+import java.io.*;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class client1 {
+    public static void main(String[] args) {
+        Socket socket=null;
+        DataOutputStream os=null;
+        DataInputStream in=null;
+        try {
+            socket=new Socket("localhost",9000);
+            in=new DataInputStream(socket.getInputStream());
+            os=new DataOutputStream(socket.getOutputStream());
+
+            os.writeInt(1);
+            //Thread mythread=new Thread(new reader(in));
+            //mythread.start();
+            System.out.println(in.readUTF());
+            os.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        finally
+        {
+            if(os!=null)
+            {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(in!=null)
+            {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(socket!=null)
+            {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+    }
+
+}
+
+/*class reader implements Runnable
+{
+    InputStream in;
+
+    public reader(InputStream in) {
+        this.in = in;
+    }
+
+    @Override
+    public void run() {
+            byte[] bytes =new byte[1024];
+            int len;
+            boolean flag = true;
+
+        }
+    }*/
+
